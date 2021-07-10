@@ -8,6 +8,7 @@ There is support for the following events:
 3. message_deliveries 
 4. message_reads
 5. message_reactions  
+
 And there is support for sending the following:
 1. Quick replies
 2. Attachments (video, audio, file, image and templates)
