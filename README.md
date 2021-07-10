@@ -1,4 +1,4 @@
-**FLASK-MESSENGER**
+# FLASK-MESSENGER
 
 This is an extension that provides a relatively easy interface to use the facebook messenger api (send and recieve).  
 It makes the creation of webhooks easy and provides a variety of functionalities.  
@@ -113,10 +113,10 @@ eg
     attachment.url = "https://example.com/img.png"
 </code>
 
-#### Template objects  
+## Template objects  
 Template objects are available in flask_messenger.templates.
 The following template methods are available:
-**GenericTemplate** - 
+**GenericTemplate**  
     GenericTemplate objects are used to send generic template attachments. To send a generic template,
     create an instance of the the GenericTemplate class with the following arguments:
     `title`: .
@@ -126,7 +126,7 @@ The following template methods are available:
     `set_default_action(url)`: Sets the default action to url.
     `add_buttons(button_list)`: adds buttons given by a list of Button objects.
 
-**ButtonTemplate**
+**ButtonTemplate**  
     ButtonTemplate objects are used to send button template attachments. To send a button template,
     create an instance of the the ButtonTemplate class with the following arguments:
     `text`: .
@@ -135,7 +135,7 @@ The following template methods are available:
     The following methods is defined:
     `add_buttons(button_list)`: Takes a list of Button objects.
 
-**RecieptTemplate**
+**RecieptTemplate**  
     RecieptTemplate objects are used to send reciept template attachments. To send a reciept template,
     create an instance of the the RecieptTemplate class with the following arguments:
     `recipient_name`
@@ -151,7 +151,7 @@ The following template methods are available:
     `add_adjustment(name, amount)`
     `add_element(title, price ,subtitle="", quantity=0, currency="", image_url="")`
 
-**MediaTemplate**
+**MediaTemplate**  
     MediaTemplate objects are used to send media template attachments. To send a media template,
     create an instance of the the MediaTemplate class with the following arguments:
     `media_type`: Optional, defaults to image. Valid values are image and video.
@@ -161,9 +161,9 @@ The following template methods are available:
     `add_button(button)`: button is a Button objects.
 
 
-#### Buttons
+## Buttons
 Buttons are available in flask_messenger.buttons:
-**URLButton**
+**URLButton**  
     Create an instance of URLButton with the following arguments:
     `url`
     `title`: Optional.
@@ -177,24 +177,24 @@ Buttons are available in flask_messenger.buttons:
         fu is fallback_url
         wsb is webview_share_button
 
-**CallButton**
+**CallButton**  
 Create an instance of CallButton with the following arguments:
 `title`
 `payload`
 
-**PostBackButton**
+**PostBackButton**  
 Create an instance of PostBackButton with the following arguments:
 `title`
 `payload`
 
-**LogInButton**
+**LogInButton**  
 Create an instance of LogInButton with the following arguments:
 `url`
 
-**LogOutButton**
+**LogOutButton**  
 Create an instance of LogOutButton with the following arguments
 
-### Sending Messages
+## Sending Messages  
 A send_message and reply_to method is provided in the Messenger object
 
 send_message takes the following arguments:
@@ -211,7 +211,7 @@ send_message takes the following arguments:
 
 The return values is a dictionary of the response
 
-#### Quick Replies
+## Quick Replies
 The QuickReply object can be found in flask_messenger.message.
 
 QuickReply(type, title, image_url, payload)
