@@ -1,4 +1,4 @@
-#FLASK-MESSENGER
+**FLASK-MESSENGER**
 
 This is an extension that provides a relatively easy interface to use the facebook messenger api (send and recieve).  
 It makes the creation of webhooks easy and provides a variety of functionalities.  
@@ -40,20 +40,20 @@ Running the above code, starts a flask server with the webook mounted on http://
 You can then run ngrok to make the webhook public.
 The webhook listens for messages send by users and if the message is "hello", it replies with "Hi, how may i help you?".
 
-### Webook endpoints
+### Webook endpoints  
 Webhook endpoints and verify token must be passed when instantiating the `Messenger` object using the webhook_token
 argument. The value is a dictionary of webhook endpoint as key and the verify token as value.
 
-### Events
+### Events  
 Messenger webhook events can be listened using the  `Messenger.on` decorator to register a handler.
 The argument to this decorator is the event which can be any of: __messages, messaging_postback, message_deliveries, message_reads, message_reactions__.
 The handler should take only one argument i.e The event object.
 
-### Event objects
+### Event objects  
 These are objects that represent the data send by messenger for an event and are passed as argument to the handler function.
 The event objects available and their properties are as follows:
 
-#### RecievedMessage
+#### RecievedMessage  
 This is the event object for messages events. The properties are:
 1. `text` - The text of recieved message.
 2. `mid` - The message id.
@@ -66,14 +66,14 @@ This is the event object for messages events. The properties are:
 9. `referral_id` 
 10. `attachments` - A list of Attachment objects.  
 
-#### Reaction
+#### Reaction  
 This is the event object for message_reactions events. The properties are:
 1. `reaction` - The reaction.
 2. `action` - The action (either react or unreact).
 3. `emoji`- The emoji's unicode character for the reaction.
 4. `mid` - The message id for which the reation was targeted.
 
-#### Postback
+#### Postback  
 This is the event object for messaging_postback events which are sent when a button in a message is clicked. The properties are:
 1. `mid` - The message id whose button was clicked.
 2. `title` - The title of the clicked button.
@@ -95,7 +95,7 @@ Attachment can be any of the following types: image, video, audio, file, templat
 template objects are located in flask_messenger.templates and the others are in 
 flask_messenger.message as the Attachment object.
 
-#### Attachment object
+#### Attachment object  
 The __Attachment object__ can be used to send image, video, audio and file attachments
 and is returned in messages with attachments. The following properties are defined:
 1. `url` - set or retrieve the url of the attachment.
@@ -113,7 +113,7 @@ eg
     attachment.url = "https://example.com/img.png"
 </code>
 
-#### Template objects
+#### Template objects  
 Template objects are available in flask_messenger.templates.
 The following template methods are available:
 **GenericTemplate** - 
