@@ -29,8 +29,9 @@ As at the the time of writing this, this extension is not yet available on PyPi.
 To install using pip, run:
 <pre>
     python -m pip install git+https://github.com/cRyp70s/flask-messenger.git
+</pre>
 Or clone the repository and install.
-
+<pre>
     git clone https://github.com/cRyp70s/flask-messenger.git
     python setup.py install
 </pre>
