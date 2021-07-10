@@ -21,6 +21,21 @@ refer to the official facebook messenger api documentation.
 Ensure you've created your facebook page and you understand how to setup a facebook app webook and subscribe to events. If you don't. Visit this link
 [Messenger Api](https://developers.facebook.com/docs/messenger-platform/)
 
+
+##Installation/Usage:
+
+
+As at the the time of writing this, this extension is not yet available on PyPi.
+To install using pip, run:
+::
+    python -m pip install git+https://github.com/cRyp70s/flask-messenger.git
+Or clone the repository and install.
+::
+    git clone https://github.com/cRyp70s/flask-messenger.git
+    python setup.py install
+
+
+
 ## Quickstart
 <pre>
 from flask_messenger import Messenger
