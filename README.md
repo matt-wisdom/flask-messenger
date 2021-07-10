@@ -22,7 +22,7 @@ Ensure you've created your facebook page and you understand how to setup a faceb
 [Messenger Api](https://developers.facebook.com/docs/messenger-platform/)
 
 ## Quickstart
-<code>
+<pre>
 from flask_messenger import Messenger
 from flask import Flask
 
@@ -36,7 +36,7 @@ def handle_text(msg_obj):
 
 if __name__ == '__main__':
     app.run()
-</code>
+</pre>
 Running the above code, starts a flask server with the webook mounted on http://localhost:5000/webhook.
 You can then run ngrok to make the webhook public.
 The webhook listens for messages send by users and if the message is "hello", it replies with "Hi, how may i help you?".
@@ -56,30 +56,30 @@ The event objects available and their properties are as follows:
 
 #### RecievedMessage  
 This is the event object for messages events. The properties are:
-1. `text` - The text of recieved message.
-2. `mid` - The message id.
-3. `is_quick_reply` - Boolean. True if the user sent this by clicking a quick reply button.
-4. `is_reply` - True if the message is a reply.
-5. `has_attachment` - True if the message has an attachment.
-6. `is_referral` - True if the message has referral field.
-7. `quick_reply_payload` - The payload for a quick reply.
-8. `reply_to` - The message id of the message replied to.
-9. `referral_id` 
-10. `attachments` - A list of Attachment objects.  
+1. `text` - The text of recieved message.  
+2. `mid` - The message id.  
+3. `is_quick_reply` - Boolean. True if the user sent this by clicking a quick reply button.  
+4. `is_reply` - True if the message is a reply.  
+5. `has_attachment` - True if the message has an attachment.    
+6. `is_referral` - True if the message has referral field.  
+7. `quick_reply_payload` - The payload for a quick reply.  
+8. `reply_to` - The message id of the message replied to.  
+9. `referral_id`   
+10. `attachments` - A list of Attachment objects.    
 
 #### Reaction  
 This is the event object for message_reactions events. The properties are:
-1. `reaction` - The reaction.
-2. `action` - The action (either react or unreact).
-3. `emoji`- The emoji's unicode character for the reaction.
-4. `mid` - The message id for which the reation was targeted.
+1. `reaction` - The reaction.  
+2. `action` - The action (either react or unreact).  
+3. `emoji`- The emoji's unicode character for the reaction.  
+4. `mid` - The message id for which the reation was targeted.  
 
 #### Postback  
 This is the event object for messaging_postback events which are sent when a button in a message is clicked. The properties are:
-1. `mid` - The message id whose button was clicked.
-2. `title` - The title of the clicked button.
-3. `payload` - The payload of the clicked button.
-4. `referral` - 
+1. `mid` - The message id whose button was clicked.  
+2. `title` - The title of the clicked button.  
+3. `payload` - The payload of the clicked button.  
+4. `referral` -   
 
 #### MessageReads
 This is the event object for message_reads events. The properties are:
@@ -130,8 +130,8 @@ The following template methods are available:
 **ButtonTemplate**  
     ButtonTemplate objects are used to send button template attachments. To send a button template,
     create an instance of the the ButtonTemplate class with the following arguments:
-    `text`: .
-    `buttons`: A list of button objects. This buttons may not be set immediately and can be set later
+    `text`:   
+    `buttons`: A list of button objects. This buttons may not be set immediately and can be set later  
     with add_buttons method.
     The following methods is defined:
     `add_buttons(button_list)`: Takes a list of Button objects.
@@ -139,13 +139,13 @@ The following template methods are available:
 **RecieptTemplate**  
     RecieptTemplate objects are used to send reciept template attachments. To send a reciept template,
     create an instance of the the RecieptTemplate class with the following arguments:
-    `recipient_name`
-    `order_number`
-    `payment_method`
-    `timestamp`: Optional.
-    `currency`: Optional. defaults to USD.
-    `merchant_name`: Optional.
-    `order_url`: Optional
+    `recipient_name`  
+    `order_number`  
+    `payment_method`  
+    `timestamp`: Optional.  
+    `currency`: Optional. defaults to USD.  
+    `merchant_name`: Optional.  
+    `order_url`: Optional  
     The following methods are defined:
     `set_address(street_1, city, postal_code, state, country, street_2="")`
     `set_summary(total_cost, subtotal=0, shipping_cost=0, total_tax=0)`
