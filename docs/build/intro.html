@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Quickstart &#8212; flask-messenger 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/flasky.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="flask_messenger package" href="flask_messenger.html" />
+    <link rel="prev" title="Welcome to flask-messenger’s documentation!" href="index.html" />
+     
+    
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head><body>
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="flask_messenger.html" title="flask_messenger package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to flask-messenger’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">flask-messenger 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Quickstart</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">flask_messenger</span></code> is a flask extension that provides an easy way to use facebook’s
+messenger api. It makes creation of webhooks and sending of messages very easy and can
+be used to create chatbots with less effort.</p>
+</section>
+<section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<section id="installation-usage">
+<h2>Installation/Usage:<a class="headerlink" href="#installation-usage" title="Permalink to this headline">¶</a></h2>
+<p>As at the the time of writing this, this extension is not yet available on PyPi.
+To install using pip, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cRyp70s</span><span class="o">/</span><span class="n">flask</span><span class="o">-</span><span class="n">messenger</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>Or clone the repository and install.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cRyp70s</span><span class="o">/</span><span class="n">flask</span><span class="o">-</span><span class="n">messenger</span><span class="o">.</span><span class="n">git</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+</section>
+<section id="simple-bot">
+<h2>Simple bot<a class="headerlink" href="#simple-bot" title="Permalink to this headline">¶</a></h2>
+<p>A simple bot.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;This example is a bot that replies to an hello</span>
+<span class="sd">   message from a user.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">flask_messenger</span> <span class="kn">import</span> <span class="n">Messenger</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">messenger</span> <span class="o">=</span> <span class="n">Messenger</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">webhook_token</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;/webhook&#39;</span><span class="p">:</span> <span class="s1">&#39;VERIFY_TOKEN&#39;</span><span class="p">},</span>
+    <span class="n">access_token</span><span class="o">=</span><span class="s1">&#39;dsfdfdfdfdfd&#39;</span><span class="p">)</span>
+
+<span class="nd">@messenger</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="n">msg_obj</span><span class="p">):</span>
+   <span class="k">if</span> <span class="n">msg_obj</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;hello&#39;</span><span class="p">:</span>
+       <span class="n">messenger</span><span class="o">.</span><span class="n">reply_to</span><span class="p">(</span><span class="n">msg_obj</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Hi, how may i help you?&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Run the above code (you can use ngrok to make your localhost accessible).
+Ensure you’ve created your facebook page and you understand how to setup a
+facebook app webook and subscribe to events. If you don’t. Visit this link <a class="reference external" href="https://developers.facebook.com/docs/messenger-platform/">Messenger Api</a></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Quickstart</a></li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#installation-usage">Installation/Usage:</a></li>
+<li><a class="reference internal" href="#simple-bot">Simple bot</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to flask-messenger’s documentation!</a></li>
+      <li>Next: <a href="flask_messenger.html" title="next chapter">flask_messenger package</a></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/intro.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+
+    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Matthew Wisdom.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+    </div>
+    
+
+  </body>
+</html>

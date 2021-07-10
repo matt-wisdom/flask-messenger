@@ -1,0 +1,977 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>flask_messenger package &#8212; flask-messenger 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/flasky.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Quickstart" href="intro.html" />
+     
+    
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head><body>
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Quickstart"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">flask-messenger 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">flask_messenger package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="flask-messenger-package">
+<h1>flask_messenger package<a class="headerlink" href="#flask-messenger-package" title="Permalink to this headline">¶</a></h1>
+<section id="module-flask_messenger">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-flask_messenger" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.Messenger">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.</span></span><span class="sig-name descname"><span class="pre">Messenger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">webhook_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.Messenger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Messenger api class.
+Example Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">messenger</span> <span class="o">=</span> <span class="n">Messenger</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">webhook_token</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;/webhook&#39;</span><span class="p">:</span> <span class="s1">&#39;VERIFY_TOKEN&#39;</span><span class="p">},</span> 
+    <span class="n">access_token</span><span class="o">=</span><span class="s1">&#39;whatever-it-is&#39;</span><span class="p">)</span>
+
+<span class="nd">@messenger</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="n">msg_obj</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">msg_obj</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;hello&#39;</span><span class="p">:</span>
+        <span class="n">messenger</span><span class="o">.</span><span class="n">reply_to</span><span class="p">(</span><span class="n">msg_obj</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Hi, how may i help you?&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> – The flask application instance. If the application instance
+is unknown when instantiating this class, then call
+<code class="docutils literal notranslate"><span class="pre">messenger.init_app(app)</span></code> when the application instance is
+available.</p></li>
+<li><p><strong>webhook_token</strong> – A dictionary of webhook endpoints, verify token pair. The endpoint
+must be a valid flask endpoint string. i.e It must start with as ‘/’. The verify token
+is a string of the verify token you set in your facebook developer dashbord.</p></li>
+<li><p><strong>access_token</strong> – Optional. This is your api access token which is used when sending messages.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All method parameter types are strings unless stated otherwise.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.Messenger.add_webhook">
+<span class="sig-name descname"><span class="pre">add_webhook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.Messenger.add_webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add or override existing webhook anytime.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> – A valid endpoint string.</p></li>
+<li><p><strong>token</strong> – The verify token for the endpoint.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.Messenger.events_dispatcher">
+<span class="sig-name descname"><span class="pre">events_dispatcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.Messenger.events_dispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to get the event type of a webhook event and
+call the event handler with the appropriate event
+object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> – The endpoint for which the event was sent.</p></li>
+<li><p><strong>request</strong> – The flask request object for that event.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.Messenger.init_app">
+<span class="sig-name descname"><span class="pre">init_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.Messenger.init_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize this extension.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.Messenger.on">
+<span class="sig-name descname"><span class="pre">on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">webhook</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.Messenger.on" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator to register event handler.  
+Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@on</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">webhook</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">event_obj</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>event</strong> – The event to set an handler for. It must be one of messages, 
+messaging_postback, message_deliveries, message_reads or message_reactions.</p></li>
+<li><p><strong>webhook</strong> – The webhook endpoint to register the event handler for.
+webhook can be a single webhook endpoint, list of webhooks endpoint or the string
+‘all’ to set the handler for all webhooks endpoint.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.Messenger.reply_to">
+<span class="sig-name descname"><span class="pre">reply_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg_obj</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.Messenger.reply_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reply to a message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msg_obj</strong> – The message event object whose sender is to be sent a reply.</p></li>
+<li><p><strong>access_token</strong> – The page’s access token. Optional if access_token was set when instantiating
+<a class="reference internal" href="#flask_messenger.Messenger" title="flask_messenger.Messenger"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.Messenger</span></code></a> class.</p></li>
+<li><p><strong>text</strong> – The text to be sent as message. This is must not be set if <cite>attachment</cite> or <cite>sender_action</cite> is set.</p></li>
+<li><p><strong>attachment</strong> – An attachment object to be sent. Attachment objects include all the classes defined in
+<a class="reference internal" href="#module-flask_messenger.templates" title="flask_messenger.templates"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flask_messenger.templates</span></code></a> or <a class="reference internal" href="#flask_messenger.message.Attachment" title="flask_messenger.message.Attachment"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.message.Attachment</span></code></a>. Must not be set when sender_action or text is set.</p></li>
+<li><p><strong>quick_replies</strong> – Takes a list of <a class="reference internal" href="#flask_messenger.message.QuickReply" title="flask_messenger.message.QuickReply"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.message.QuickReply</span></code></a> objects to be sent with the message.</p></li>
+<li><p><strong>sender_action</strong> – It can be any of “typing_on”, “typing_off” or “mark_seen”. Must not be set when attachment
+or text is set.</p></li>
+<li><p><strong>type</strong> – The type of the message to be sent. Valid options are ‘RESPONSE’, ‘UPDATE’and ‘MESSAGE_TAG’.</p></li>
+<li><p><strong>notification_type</strong> – Valid values are ‘REGULAR’, ‘SILENT_PUSH’, ‘NO_PUSH’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary of the response.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.Messenger.send_message">
+<span class="sig-name descname"><span class="pre">send_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attachment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quick_replies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender_action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'RESPONSE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notification_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.Messenger.send_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a message using facebook’s send api.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recipient</strong> – The recipient object which is a dictionary of one entry that can have any of 
+the following keys: id, user_ref, post_id, comment_id and the appropriate value.</p></li>
+<li><p><strong>access_token</strong> – The page’s access token. Optional if access_token was set when instantiating
+<a class="reference internal" href="#flask_messenger.Messenger" title="flask_messenger.Messenger"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.Messenger</span></code></a> class.</p></li>
+<li><p><strong>text</strong> – The text to be sent as message. This is must not be set if <cite>attachment</cite> or <cite>sender_action</cite> is set.</p></li>
+<li><p><strong>attachment</strong> – An attachment object to be sent. Attachment objects include all the classes defined in
+<a class="reference internal" href="#module-flask_messenger.templates" title="flask_messenger.templates"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flask_messenger.templates</span></code></a> or <a class="reference internal" href="#flask_messenger.message.Attachment" title="flask_messenger.message.Attachment"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.message.Attachment</span></code></a>. Must not be set when sender_action or text is set.</p></li>
+<li><p><strong>quick_replies</strong> – Takes a list of <a class="reference internal" href="#flask_messenger.message.QuickReply" title="flask_messenger.message.QuickReply"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.message.QuickReply</span></code></a> objects to be sent with the message.</p></li>
+<li><p><strong>sender_action</strong> – It can be any of “typing_on”, “typing_off” or “mark_seen”. Must not be set when attachment
+or text is set.</p></li>
+<li><p><strong>type</strong> – The type of the message to be sent. Valid options are ‘RESPONSE’, ‘UPDATE’and ‘MESSAGE_TAG’.</p></li>
+<li><p><strong>notification_type</strong> – Valid values are ‘REGULAR’, ‘SILENT_PUSH’, ‘NO_PUSH’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary of the response.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.ParseEvents">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.</span></span><span class="sig-name descname"><span class="pre">ParseEvents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.ParseEvents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to parse event data and determine the appropriate event type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request_dict</strong> – A dictionary of the data sent by messenger.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.ParseEvents.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.ParseEvents.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This method returns a 3-tuple with the first element being
+the event type, the second element being the raw entry and the last
+is the appropriate event object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-flask_messenger.buttons">
+<span id="flask-messenger-buttons-module"></span><h2>flask_messenger.buttons module<a class="headerlink" href="#module-flask_messenger.buttons" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.buttons.Button">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.buttons.</span></span><span class="sig-name descname"><span class="pre">Button</span></span><a class="headerlink" href="#flask_messenger.buttons.Button" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base button class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.buttons.Button.get_dict">
+<span class="sig-name descname"><span class="pre">get_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.buttons.Button.get_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary of the button data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.buttons.CallButton">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.buttons.</span></span><span class="sig-name descname"><span class="pre">CallButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.buttons.CallButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flask_messenger.buttons.Button" title="flask_messenger.buttons.Button"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.buttons.Button</span></code></a></p>
+<p>Call button class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – Title of button.</p></li>
+<li><p><strong>payload</strong> – payload (phone number) for the button.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.buttons.LogInButton">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.buttons.</span></span><span class="sig-name descname"><span class="pre">LogInButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.buttons.LogInButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flask_messenger.buttons.Button" title="flask_messenger.buttons.Button"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.buttons.Button</span></code></a></p>
+<p>Login button class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url</strong> – login url.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.buttons.LogOutButton">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.buttons.</span></span><span class="sig-name descname"><span class="pre">LogOutButton</span></span><a class="headerlink" href="#flask_messenger.buttons.LogOutButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flask_messenger.buttons.Button" title="flask_messenger.buttons.Button"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.buttons.Button</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.buttons.PostBackButton">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.buttons.</span></span><span class="sig-name descname"><span class="pre">PostBackButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.buttons.PostBackButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flask_messenger.buttons.Button" title="flask_messenger.buttons.Button"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.buttons.Button</span></code></a></p>
+<p>Postback button class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – Title of the button.</p></li>
+<li><p><strong>payload</strong> – Payload to be sent to webhook on click.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.buttons.URLButton">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.buttons.</span></span><span class="sig-name descname"><span class="pre">URLButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.buttons.URLButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flask_messenger.buttons.Button" title="flask_messenger.buttons.Button"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.buttons.Button</span></code></a></p>
+<p>Url buttons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> – url to send users to on click.</p></li>
+<li><p><strong>title</strong> – Optional. Title of the button.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.buttons.URLButton.add_optionals">
+<span class="sig-name descname"><span class="pre">add_optionals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">whr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">me</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wsb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.buttons.URLButton.add_optionals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add some optional fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>whr</strong> – Optional. The webview_height_ratio.</p></li>
+<li><p><strong>me</strong> – Optional. messenger_extensions.</p></li>
+<li><p><strong>fu</strong> – Optional. fallback_url.</p></li>
+<li><p><strong>wsb</strong> – Optional. webview_share_button.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flask_messenger.events">
+<span id="flask-messenger-events-module"></span><h2>flask_messenger.events module<a class="headerlink" href="#module-flask_messenger.events" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.events.BaseEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.events.</span></span><span class="sig-name descname"><span class="pre">BaseEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.events.BaseEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Contains a couple of methods to be inherited
+by event classes.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.BaseEvent.recipient_id">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">recipient_id</span></span><a class="headerlink" href="#flask_messenger.events.BaseEvent.recipient_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.BaseEvent.sender">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sender</span></span><a class="headerlink" href="#flask_messenger.events.BaseEvent.sender" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.BaseEvent.timestamp">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">timestamp</span></span><a class="headerlink" href="#flask_messenger.events.BaseEvent.timestamp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.events.MessageDeliveries">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.events.</span></span><span class="sig-name descname"><span class="pre">MessageDeliveries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.events.MessageDeliveries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flask_messenger.events.BaseEvent" title="flask_messenger.events.BaseEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.events.BaseEvent</span></code></a></p>
+<p>Event class for message_deliveries</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.MessageDeliveries.mids">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mids</span></span><a class="headerlink" href="#flask_messenger.events.MessageDeliveries.mids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.MessageDeliveries.watermark">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">watermark</span></span><a class="headerlink" href="#flask_messenger.events.MessageDeliveries.watermark" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.events.MessageReads">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.events.</span></span><span class="sig-name descname"><span class="pre">MessageReads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.events.MessageReads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flask_messenger.events.BaseEvent" title="flask_messenger.events.BaseEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.events.BaseEvent</span></code></a></p>
+<p>Event class for message_reads</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.MessageReads.watermark">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">watermark</span></span><a class="headerlink" href="#flask_messenger.events.MessageReads.watermark" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.events.PostBack">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.events.</span></span><span class="sig-name descname"><span class="pre">PostBack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.events.PostBack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flask_messenger.events.BaseEvent" title="flask_messenger.events.BaseEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.events.BaseEvent</span></code></a></p>
+<p>Event class for postbacks</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.PostBack.mid">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mid</span></span><a class="headerlink" href="#flask_messenger.events.PostBack.mid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.PostBack.payload">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">payload</span></span><a class="headerlink" href="#flask_messenger.events.PostBack.payload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.PostBack.referral">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">referral</span></span><a class="headerlink" href="#flask_messenger.events.PostBack.referral" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.PostBack.title">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#flask_messenger.events.PostBack.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.events.Reaction">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.events.</span></span><span class="sig-name descname"><span class="pre">Reaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.events.Reaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flask_messenger.events.BaseEvent" title="flask_messenger.events.BaseEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.events.BaseEvent</span></code></a></p>
+<p>Event class for reaction event.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.Reaction.action">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">action</span></span><a class="headerlink" href="#flask_messenger.events.Reaction.action" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.Reaction.emoji">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">emoji</span></span><a class="headerlink" href="#flask_messenger.events.Reaction.emoji" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the emoji’s unicode value.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.Reaction.mid">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mid</span></span><a class="headerlink" href="#flask_messenger.events.Reaction.mid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.Reaction.reaction">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">reaction</span></span><a class="headerlink" href="#flask_messenger.events.Reaction.reaction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.events.</span></span><span class="sig-name descname"><span class="pre">RecievedMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.events.RecievedMessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#flask_messenger.events.BaseEvent" title="flask_messenger.events.BaseEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.events.BaseEvent</span></code></a></p>
+<p>Event class for a message event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – The data from messenger.</p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage.attachments">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">attachments</span></span><a class="headerlink" href="#flask_messenger.events.RecievedMessage.attachments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of <a class="reference internal" href="#flask_messenger.message.Attachment" title="flask_messenger.message.Attachment"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.message.Attachment</span></code></a> objects.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage.has_attachment">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">has_attachment</span></span><a class="headerlink" href="#flask_messenger.events.RecievedMessage.has_attachment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage.is_quick_reply">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_quick_reply</span></span><a class="headerlink" href="#flask_messenger.events.RecievedMessage.is_quick_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage.is_referral">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_referral</span></span><a class="headerlink" href="#flask_messenger.events.RecievedMessage.is_referral" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage.is_reply">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_reply</span></span><a class="headerlink" href="#flask_messenger.events.RecievedMessage.is_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage.mid">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mid</span></span><a class="headerlink" href="#flask_messenger.events.RecievedMessage.mid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage.quick_reply_payload">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">quick_reply_payload</span></span><a class="headerlink" href="#flask_messenger.events.RecievedMessage.quick_reply_payload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage.referral_id">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">referral_id</span></span><a class="headerlink" href="#flask_messenger.events.RecievedMessage.referral_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage.reply_to">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">reply_to</span></span><a class="headerlink" href="#flask_messenger.events.RecievedMessage.reply_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.events.RecievedMessage.text">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#flask_messenger.events.RecievedMessage.text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flask_messenger.message">
+<span id="flask-messenger-message-module"></span><h2>flask_messenger.message module<a class="headerlink" href="#module-flask_messenger.message" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.message.Attachment">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.message.</span></span><span class="sig-name descname"><span class="pre">Attachment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attachment_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.Attachment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Attachment class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>attachment_dict</strong> – This is optional and is only used by the <a class="reference internal" href="#flask_messenger.events.RecievedMessage" title="flask_messenger.events.RecievedMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.events.RecievedMessage</span></code></a>
+to get the attachment object for a recieved message. The value is a dictionary of the
+attachment field in the recieved message data.</p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.message.Attachment.coordinates">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">coordinates</span></span><a class="headerlink" href="#flask_messenger.message.Attachment.coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Co-ordinates (lat, long) if the attachment is as a result of a user clicking
+a location quick reply.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.message.Attachment.download_attachment">
+<span class="sig-name descname"><span class="pre">download_attachment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.Attachment.download_attachment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.message.Attachment.get_dict">
+<span class="sig-name descname"><span class="pre">get_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.Attachment.get_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary of the attachment data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.message.Attachment.is_location_data">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_location_data</span></span><a class="headerlink" href="#flask_messenger.message.Attachment.is_location_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the attachment is as a result of a user clicking a location quick reply.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.message.Attachment.is_reusable">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_reusable</span></span><a class="headerlink" href="#flask_messenger.message.Attachment.is_reusable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flask_messenger.message.Attachment.supportedtypes">
+<span class="sig-name descname"><span class="pre">supportedtypes</span></span><em class="property"> <span class="pre">=</span> <span class="pre">['image',</span> <span class="pre">'video',</span> <span class="pre">'audio',</span> <span class="pre">'file']</span></em><a class="headerlink" href="#flask_messenger.message.Attachment.supportedtypes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.message.Attachment.type">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#flask_messenger.message.Attachment.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flask_messenger.message.Attachment.url">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">url</span></span><a class="headerlink" href="#flask_messenger.message.Attachment.url" title="Permalink to this definition">¶</a></dt>
+<dd><p>URL of the attachment.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.message.Message">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.message.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender_action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notification_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.Message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Message class to encapsulate a message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – Type of message. Valid values are ‘RESPONSE’, ‘UPDATE’ and ‘MESSAGE_TAG’.</p></li>
+<li><p><strong>recipient</strong> – The recipient object which is a dictionary of one entry that can have any of 
+the following keys: id, user_ref, post_id, comment_id and the appropriate value.</p></li>
+<li><p><strong>text</strong> – Text to be sent. Must not be set when either sender_action or notification_type are set.</p></li>
+<li><p><strong>sender_action</strong> – Sender action. Valid values are ‘typing_on’, ‘typing_off’ and ‘mark_seen’. Cannot
+be set with text and notification_type.</p></li>
+<li><p><strong>notification_type</strong> – The notification_type. Valid values are ‘REGULAR’, ‘SILENT_PUSH’ and ‘NO_PUSH’.
+Cannot be set with text and sender_action</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.message.Message.add_quick_reply">
+<span class="sig-name descname"><span class="pre">add_quick_reply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quick_reply_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.Message.add_quick_reply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a quick reply to the message. May be called multiple times to add multiple quick replies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>quick_replies</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.QuickReply</span></code> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.message.Message.get_dict">
+<span class="sig-name descname"><span class="pre">get_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.Message.get_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary of the message data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.message.Message.set_attachment">
+<span class="sig-name descname"><span class="pre">set_attachment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attachment_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.Message.set_attachment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an attachment to the message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>attachment_obj</strong> – An attachment object to be sent. Attachment objects include all the classes
+defined in <a class="reference internal" href="#module-flask_messenger.templates" title="flask_messenger.templates"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flask_messenger.templates</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.Attachment</span></code>. Must not be set when sender_action or text is set.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.message.QuickReply">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.message.</span></span><span class="sig-name descname"><span class="pre">QuickReply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.QuickReply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Quick Reply class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – The type of the quick reply. Valid values are ‘text’, ‘location’,
+‘user_email’ and ‘user_phone_number’.</p></li>
+<li><p><strong>title</strong> – Title of the quick reply. It must be set when <cite>type</cite> is ‘text’.</p></li>
+<li><p><strong>image_url</strong> – An image to be sent alongside a text quick reply.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Payload</dt>
+<dd class="field-even"><p>payload for text quick reply.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.message.QuickReply.get_dict">
+<span class="sig-name descname"><span class="pre">get_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.QuickReply.get_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary of the quick reply data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flask_messenger.message.download_file">
+<span class="sig-prename descclassname"><span class="pre">flask_messenger.message.</span></span><span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.download_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a file from a given url into dir.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> – url to download the file from.</p></li>
+<li><p><strong>dir</strong> – optional.The directory to download the file into.
+Defaults to the current directory.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flask_messenger.message.send_message">
+<span class="sig-prename descclassname"><span class="pre">flask_messenger.message.</span></span><span class="sig-name descname"><span class="pre">send_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attachment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quick_replies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender_action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'RESPONSE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notification_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.message.send_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a message using facebook’s send api.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recipient</strong> – The recipient object which is a dictionary of one entry that can have any of 
+the following keys: id, user_ref, post_id, comment_id and the appropriate value.</p></li>
+<li><p><strong>access_token</strong> – The page’s access token. Optional if access_token was set when instantiating
+<a class="reference internal" href="#flask_messenger.Messenger" title="flask_messenger.Messenger"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.Messenger</span></code></a> class.</p></li>
+<li><p><strong>text</strong> – The text to be sent as message. This is must not be set if <cite>attachment</cite> or <cite>sender_action</cite> is set.</p></li>
+<li><p><strong>attachment</strong> – An attachment object to be sent. Attachment objects include all the classes defined in
+<a class="reference internal" href="#module-flask_messenger.templates" title="flask_messenger.templates"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flask_messenger.templates</span></code></a> or <a class="reference internal" href="#flask_messenger.message.Attachment" title="flask_messenger.message.Attachment"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.message.Attachment</span></code></a>. Must not be set when sender_action or text is set.</p></li>
+<li><p><strong>quick_replies</strong> – Takes a list of <a class="reference internal" href="#flask_messenger.message.QuickReply" title="flask_messenger.message.QuickReply"><code class="xref py py-class docutils literal notranslate"><span class="pre">flask_messenger.message.QuickReply</span></code></a> objects to be sent with the message.</p></li>
+<li><p><strong>sender_action</strong> – It can be any of “typing_on”, “typing_off” or “mark_seen”. Must not be set when attachment
+or text is set.</p></li>
+<li><p><strong>type</strong> – The type of the message to be sent. Valid options are ‘RESPONSE’, ‘UPDATE’and ‘MESSAGE_TAG’.</p></li>
+<li><p><strong>notification_type</strong> – Valid values are ‘REGULAR’, ‘SILENT_PUSH’, ‘NO_PUSH’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary of the response.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-flask_messenger.templates">
+<span id="flask-messenger-templates-module"></span><h2>flask_messenger.templates module<a class="headerlink" href="#module-flask_messenger.templates" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.templates.ButtonTemplate">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.templates.</span></span><span class="sig-name descname"><span class="pre">ButtonTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buttons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.ButtonTemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.ButtonTemplate.add_buttons">
+<span class="sig-name descname"><span class="pre">add_buttons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">button_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.ButtonTemplate.add_buttons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add buttons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>button_list</strong> – A list of button objects from <a class="reference internal" href="#module-flask_messenger.buttons" title="flask_messenger.buttons"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flask_messenger.buttons</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.ButtonTemplate.get_dict">
+<span class="sig-name descname"><span class="pre">get_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.ButtonTemplate.get_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary of the template data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.templates.GenericTemplate">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.templates.</span></span><span class="sig-name descname"><span class="pre">GenericTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtitle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.GenericTemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to represent a generic template.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All method parameter types are strings unless stated otherwise.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – The title of the template.</p></li>
+<li><p><strong>image_url</strong> – Optional. URL of image to be included in the template.</p></li>
+<li><p><strong>subtitle</strong> – Optional. Subtitle</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.GenericTemplate.add_buttons">
+<span class="sig-name descname"><span class="pre">add_buttons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">button_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.GenericTemplate.add_buttons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add buttons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>button_list</strong> – A list of button objects from <a class="reference internal" href="#module-flask_messenger.buttons" title="flask_messenger.buttons"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flask_messenger.buttons</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.GenericTemplate.get_dict">
+<span class="sig-name descname"><span class="pre">get_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.GenericTemplate.get_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary of the template data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.GenericTemplate.set_default_action">
+<span class="sig-name descname"><span class="pre">set_default_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.GenericTemplate.set_default_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a default action for the template. The default action is a
+url button whose url is opened when the button is clicked if no
+other button is present.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url</strong> – URL for the default action button.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.templates.MediaTemplate">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.templates.</span></span><span class="sig-name descname"><span class="pre">MediaTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">media_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'image'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attachment_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.MediaTemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Media template class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>media_type</strong> – Optional. Type of media to be sent in template. valid values are ‘image’ or ‘video’.
+Defaults to ‘image’.</p></li>
+<li><p><strong>attachment_id</strong> – The id of a previously saved attachment. Cannot be set when url is set.</p></li>
+<li><p><strong>url</strong> – The url of the media to be sent with the template. Cannot be set when url is set.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.MediaTemplate.add_button">
+<span class="sig-name descname"><span class="pre">add_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">button</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.MediaTemplate.add_button" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a button to the template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>button</strong> – A button object from <a class="reference internal" href="#module-flask_messenger.buttons" title="flask_messenger.buttons"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flask_messenger.buttons</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.MediaTemplate.get_dict">
+<span class="sig-name descname"><span class="pre">get_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.MediaTemplate.get_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary of the template data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_messenger.templates.RecieptTemplate">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">flask_messenger.templates.</span></span><span class="sig-name descname"><span class="pre">RecieptTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipient_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payment_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">currency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'USD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merchant_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.RecieptTemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Reciept Template class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recipient_name</strong> – The name of the recipient.</p></li>
+<li><p><strong>order_number</strong> – Order number.</p></li>
+<li><p><strong>payment_method</strong> – The method of payment.</p></li>
+<li><p><strong>timestamp</strong> – Optional. timestamp for when payment was made.</p></li>
+<li><p><strong>currency</strong> – Optional. Currency code. Defaults to ‘USD’.</p></li>
+<li><p><strong>merchant_name</strong> – Optional. Merchant’s name.</p></li>
+<li><p><strong>order_url</strong> – Optional. Order URL.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.RecieptTemplate.add_adjustment">
+<span class="sig-name descname"><span class="pre">add_adjustment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.RecieptTemplate.add_adjustment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add adjustments. Optional.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.RecieptTemplate.add_element">
+<span class="sig-name descname"><span class="pre">add_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtitle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">currency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.RecieptTemplate.add_element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an element to the template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – Title of element.</p></li>
+<li><p><strong>price</strong> – Price of element.</p></li>
+<li><p><strong>subtitle</strong> – Optional. Subtitle.</p></li>
+<li><p><strong>quantity</strong> – Optional. Quantity of element.</p></li>
+<li><p><strong>currency</strong> – Optional. Currency code.</p></li>
+<li><p><strong>image_url</strong> – Optional. Image.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.RecieptTemplate.get_dict">
+<span class="sig-name descname"><span class="pre">get_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.RecieptTemplate.get_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary of the template data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.RecieptTemplate.set_address">
+<span class="sig-name descname"><span class="pre">set_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">street_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">street_2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.RecieptTemplate.set_address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an address to the reciept. Address may not be set before sending template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>street_1</strong> – Street name.</p></li>
+<li><p><strong>city</strong> – City name.</p></li>
+<li><p><strong>postal_code</strong> – Postal Code.</p></li>
+<li><p><strong>state</strong> – State.</p></li>
+<li><p><strong>country</strong> – Country.</p></li>
+<li><p><strong>street_2</strong> – Optional. second street name.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_messenger.templates.RecieptTemplate.set_summary">
+<span class="sig-name descname"><span class="pre">set_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_cost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtotal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shipping_cost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_tax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_messenger.templates.RecieptTemplate.set_summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the reciept’s summary. This must be set before sending the template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>total_cost</strong> – The total cost of the purchase.</p></li>
+<li><p><strong>subtotal</strong> – Optional.</p></li>
+<li><p><strong>shipping_cost</strong> – Optional.</p></li>
+<li><p><strong>total_tax</strong> – Optional.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>float.</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float.</p>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>float.</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">flask_messenger package</a><ul>
+<li><a class="reference internal" href="#module-flask_messenger">Module contents</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-flask_messenger.buttons">flask_messenger.buttons module</a></li>
+<li><a class="reference internal" href="#module-flask_messenger.events">flask_messenger.events module</a></li>
+<li><a class="reference internal" href="#module-flask_messenger.message">flask_messenger.message module</a></li>
+<li><a class="reference internal" href="#module-flask_messenger.templates">flask_messenger.templates module</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="intro.html" title="previous chapter">Quickstart</a></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/flask_messenger.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+
+    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Matthew Wisdom.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+    </div>
+    
+
+  </body>
+</html>
