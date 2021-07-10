@@ -116,25 +116,25 @@ eg
 
 ## Template objects  
 Template objects are available in flask_messenger.templates.
-The following template methods are available:
+The following template methods are available:  
 **GenericTemplate**  
     GenericTemplate objects are used to send generic template attachments. To send a generic template,
     create an instance of the the GenericTemplate class with the following arguments:
-    `title`: .
-    `image_url`: Optional url of image to be included in the template.
-    `subtitle`: Optional Subtitle.
-    The following methods are also defined:
-    `set_default_action(url)`: Sets the default action to url.
-    `add_buttons(button_list)`: adds buttons given by a list of Button objects.
+    `title`: .  
+    `image_url`: Optional url of image to be included in the template.  
+    `subtitle`: Optional Subtitle.  
+    The following methods are also defined:  
+    `set_default_action(url)`: Sets the default action to url.  
+    `add_buttons(button_list)`: adds buttons given by a list of Button objects.  
 
 **ButtonTemplate**  
     ButtonTemplate objects are used to send button template attachments. To send a button template,
     create an instance of the the ButtonTemplate class with the following arguments:
     `text`:   
     `buttons`: A list of button objects. This buttons may not be set immediately and can be set later  
-    with add_buttons method.
-    The following methods is defined:
-    `add_buttons(button_list)`: Takes a list of Button objects.
+    with add_buttons method.  
+    The following methods is defined:  
+    `add_buttons(button_list)`: Takes a list of Button objects.  
 
 **RecieptTemplate**  
     RecieptTemplate objects are used to send reciept template attachments. To send a reciept template,
@@ -146,67 +146,67 @@ The following template methods are available:
     `currency`: Optional. defaults to USD.  
     `merchant_name`: Optional.  
     `order_url`: Optional  
-    The following methods are defined:
-    `set_address(street_1, city, postal_code, state, country, street_2="")`
-    `set_summary(total_cost, subtotal=0, shipping_cost=0, total_tax=0)`
-    `add_adjustment(name, amount)`
+    The following methods are defined:  
+    `set_address(street_1, city, postal_code, state, country, street_2="")`  
+    `set_summary(total_cost, subtotal=0, shipping_cost=0, total_tax=0)`  
+    `add_adjustment(name, amount)`  
     `add_element(title, price ,subtitle="", quantity=0, currency="", image_url="")`
 
 **MediaTemplate**  
     MediaTemplate objects are used to send media template attachments. To send a media template,
     create an instance of the the MediaTemplate class with the following arguments:
-    `media_type`: Optional, defaults to image. Valid values are image and video.
-    `attachment_id`: The id of a saved attachment. Either this or url must be set but not both.
-    `url`: The url of the attachment. Either this or attachment_id must be set but not both.
-    The following methods are defined:
-    `add_button(button)`: button is a Button objects.
+    `media_type`: Optional, defaults to image. Valid values are image and video.  
+    `attachment_id`: The id of a saved attachment. Either this or url must be set but not both.  
+    `url`: The url of the attachment. Either this or attachment_id must be set but not both.  
+    The following methods are defined:  
+    `add_button(button)`: button is a Button objects.  
 
 
 ## Buttons
-Buttons are available in flask_messenger.buttons:
+Buttons are available in flask_messenger.buttons:  
 **URLButton**  
-    Create an instance of URLButton with the following arguments:
-    `url`
-    `title`: Optional.
-    The following methods are defined:
-    `add_optionals(whr=whr, me=me, fu=fu, wsb=wsb)`
+    Create an instance of URLButton with the following arguments:  
+    `url`  
+    `title`: Optional.  
+    The following methods are defined:  
+    `add_optionals(whr=whr, me=me, fu=fu, wsb=wsb)`  
         or
-    `add_optionals({'whr':whr, 'me':me, 'fu':fu, 'wsb':wsb})`
+    `add_optionals({'whr':whr, 'me':me, 'fu':fu, 'wsb':wsb})`  
     where:
-        whr is webview_height_ratio
-        me is messenger_extensions
-        fu is fallback_url
-        wsb is webview_share_button
+        `whr` is webview_height_ratio  
+        `me` is messenger_extensions  
+        `fu` is fallback_url  
+        `wsb` is webview_share_button  
 
 **CallButton**  
-Create an instance of CallButton with the following arguments:
-`title`
-`payload`
+Create an instance of CallButton with the following arguments:  
+`title`  
+`payload`  
 
 **PostBackButton**  
-Create an instance of PostBackButton with the following arguments:
-`title`
-`payload`
+Create an instance of PostBackButton with the following arguments:  
+`title`  
+`payload`  
 
 **LogInButton**  
-Create an instance of LogInButton with the following arguments:
-`url`
+Create an instance of LogInButton with the following arguments:  
+`url`  
 
 **LogOutButton**  
-Create an instance of LogOutButton with the following arguments
+Create an instance of LogOutButton with the following arguments  
 
 ## Sending Messages  
 A send_message and reply_to method is provided in the Messenger object
 
 send_message takes the following arguments:
 1. `recipient`: The recipient objects which is a dictionary of one entry that can have any of 
-            the following keys: id, user_ref, post_id, comment_id and their  appropriate values.
-2. `access_token`: This is optional  and needs to be set if access_token was not set when creating the Messenger instantance.
-3. `text`: text string. Either text, attachment or sender_action must be set but not any two or all of them.
-4. `attachment`: The value is Attachment or template object. Either text, attachment or sender_action must be set but not any two or all of them.
-5. `quick_replies`: A list of QuickReply objects.
-6. `sender_action`: Action to be sent. Any of "typing_on", "typing_off" or "mark_seen". Cannot be set with attachment or text.
-7. `type_`: The type of message to be sent. Must be any of RESPONSE, UPDATE, MESSAGE_TAG.
+            the following keys: id, user_ref, post_id, comment_id and their  appropriate values.  
+2. `access_token`: This is optional  and needs to be set if access_token was not set when creating the Messenger instantance.  
+3. `text`: text string. Either text, attachment or sender_action must be set but not any two or all of them.  
+4. `attachment`: The value is Attachment or template object. Either text, attachment or sender_action must be set but not any two or all of them.  
+5. `quick_replies`: A list of QuickReply objects.  
+6. `sender_action`: Action to be sent. Any of "typing_on", "typing_off" or "mark_seen". Cannot be set with attachment or text.  
+7. `type_`: The type of message to be sent. Must be any of RESPONSE, UPDATE, MESSAGE_TAG.  
 
 `reply_to` takes the same arguments as send_message except that in place of recipient, the RecievedMessage object should be used.
 
@@ -215,12 +215,12 @@ The return values is a dictionary of the response
 ## Quick Replies
 The QuickReply object can be found in flask_messenger.message.
 
-QuickReply(type, title, image_url, payload)
-arguments:
-1. `type`:  The type of quick replies. It can be any of: text, location, user_phone_number, user_email.
-2. `title`: This is needed only when using text type.
-3. `image_url`: The url of an image to be sent along side the text quick reply.
-4. `payload`: The payload for text quick reply.
+QuickReply(type, title, image_url, payload)  
+arguments:  
+1. `type`:  The type of quick replies. It can be any of: text, location, user_phone_number, user_email.  
+2. `title`: This is needed only when using text type.  
+3. `image_url`: The url of an image to be sent along side the text quick reply.  
+4. `payload`: The payload for text quick reply.  
 
 
 ## TODO
