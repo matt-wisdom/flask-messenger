@@ -55,7 +55,7 @@ if __name__ == '__main__':
 </pre>
 Running the above code, starts a flask server with the webook mounted on http://localhost:5000/webhook.
 You can then run ngrok to make the webhook public.
-The webhook listens for messages send by users and if the message is "hello", it replies with "Hi, how may i help you?".
+The webhook listens for messages sent by users and if the message is "hello", it replies with "Hi, how may i help you?".
 
 ### Webook endpoints  
 Webhook endpoints and verify token must be passed when instantiating the `Messenger` object using the webhook_token
