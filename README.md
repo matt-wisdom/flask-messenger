@@ -67,7 +67,7 @@ The argument to this decorator is the event which can be any of: __messages, mes
 The handler should take only one argument i.e The event object.
 
 ### Event objects  
-These are objects that represent the data send by messenger for an event and are passed as argument to the handler function.
+These are objects that represent the data sent by messenger for an event and are passed as argument to the handler function.
 The event objects available and their properties are as follows:
 
 #### RecievedMessage  
