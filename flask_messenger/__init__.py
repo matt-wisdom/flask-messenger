@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from functools import wraps
+from functools import wraps, partial
 from flask import current_app, _app_ctx_stack, request, abort
 from .events import RecievedMessage, PostBack, MessageDeliveries, Reaction, MessageReads
 from .message import Message, send_message
