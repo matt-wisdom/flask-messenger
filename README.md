@@ -1,6 +1,6 @@
 # FLASK-MESSENGER
 
-This is an extension that provides a relatively easy interface to use the facebook messenger api (send and recieve).  
+This is an extension that provides a relatively easy interface to use the meta's messenger api (send and recieve).  
 It makes the creation of webhooks easy and provides a variety of functionalities.  
 There is support for the following events: 
 1. messages
@@ -15,8 +15,8 @@ And there is support for sending the following:
 3. Templates (generic, button, reciept, media)
 4. Buttons (url, call, postback, login, logut)
 
-<b>Note:</b> This is an unofficial wrapper around the facebook messenger api, If you dont understand what some of the terms are. Please
-refer to the official facebook messenger api documentation.
+<b>Note:</b> This is an unofficial wrapper around the metas messenger api, If you dont understand what some of the terms are. Please
+refer to the official meta's messenger api documentation.
 ## Before Starting
 Ensure you've created your facebook page and you understand how to setup a facebook app webook and subscribe to events. If you don't. Visit this link
 [Messenger Api](https://developers.facebook.com/docs/messenger-platform/)
