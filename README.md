@@ -28,11 +28,11 @@ Ensure you've created your facebook page and you understand how to setup a faceb
 As at the the time of writing this, this extension is not yet available on PyPi.
 To install using pip, run:
 <pre>
-    python -m pip install git+https://github.com/cRyp70s/flask-messenger.git
+    python -m pip install git+https://github.com/matt-wisdom/flask-messenger.git
 </pre>
 Or clone the repository and install.
 <pre>
-    git clone https://github.com/cRyp70s/flask-messenger.git
+    git clone https://github.com/matt-wisdom/flask-messenger.git
     python setup.py install
 </pre>
 
